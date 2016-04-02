@@ -1,0 +1,141 @@
+<ion-view view-title="Perfil">
+  <ion-content>
+    <ion-list>
+
+    
+    <!--####### IMAGEN - NOMBRE - CÉDULA -->
+
+    <div class="card">
+	  <div class="item item-image padding">
+	    <img src="img/ben.png" height="250">
+	  </div>
+	</div>
+
+    <div class="row">
+	  <div class="col">
+				<center><h3 class="title">{{persona.nombre + ' ' + persona.apellidos}}</h3></center>
+	  </div>
+	</div>
+
+	<div class="row">
+	  <div class="col">
+				<center><h3 class="title">Cédula: {{persona.cedula}}</h3></center>
+	  </div>
+	</div>
+
+
+	<!--####### INFORMACION PROFESIONAL -->
+	
+	<div class="item item-divider color-grisMedio">
+    	<center>Información Profesional</center>
+  	</div>
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Grados académicos</h5>
+			<h6 class="subtitle">{{hayGradosAcademicos}}</h6>
+		</div>
+	</div>
+
+	<div class="item item-button-right" ng-repeat="gradoAcademico in listaGradosAcademicosPersona">
+	    {{gradoAcademico.campo_estudio}}
+	    <button class="button button-stable" ng-click="removerGrado($index,gradoAcademico)">
+	    	<i class="icon ion-close-circled color-rojo"></i>
+	    </button>
+	</div>
+
+	<div class="row">
+		<div class="col col-80">
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Nuevo Grado Académico
+			    </div>
+			    <select ng-model = "gradoAcademico" ng-change = "change(gradoAcademico)">
+			      <option ng-repeat="gradoAcademicoSelect in listaGradosAcademicos" value = "{{gradoAcademicoSelect}}" >{{gradoAcademicoSelect.campo_estudio}}</option>
+			    </select>
+		   	</label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "funcion(gradoAcademicoSelect)">
+	  			<i class="icon ion-plus-circled color-azul"></i>
+	  		</button>
+	  	</div>
+	</div>
+
+	<!--####### INFORMACION PROFESIONAL -->
+
+	<div class="item item-divider color-grisMedio">
+    	<center>Informacion Institucional</center>
+  	</div>
+
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<label class="item item-input item-select">
+	    <div class="input-label">
+	      Departamento
+	    </div>
+	    <select>
+	      <option ng-repeat="departamento in listaDepartamentos" >{{departamento}}</option>
+	    </select>
+	  </label>
+
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<label class="item item-input item-select">
+	    <div class="input-label">
+	      Sede
+	    </div>
+	    <select>
+	      <option ng-repeat="sede in listaSedes">{{sede.nombre_sede}}</option>
+	    </select>
+   	</label>
+
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<li class="item item-toggle">
+	    Posee Cargo de Jefatura
+	    <label class="toggle toggle-balanced">
+	      <input type="checkbox">
+	      <div class="track">
+	        <div class="handle"></div>
+	      </div>
+	    </label>
+	</li>
+
+
+	<!--####### INFORMACIÓN PERSONAL -->
+
+	<div class="item item-divider color-grisMedio">
+    	<center>Información Personal y Residencia</center>
+  	</div>
+
+  	<label class="item item-input">
+	  <span class="input-label">Fecha de Nacimiento</span>
+	  <input type="date">
+	</label>
+
+
+	<!--####### GUSTOS Y PREFERENCIAS -->
+
+	<div class="item item-divider color-grisMedio">
+    	<center>Gustos y Preferencias</center>
+  	</div>
+
+
+  	<li class="item item-toggle">
+	    Vegetariano
+	    <label class="toggle toggle-balanced">
+	      <input type="checkbox">
+	      <div class="track">
+	        <div class="handle"></div>
+	      </div>
+	    </label>
+	</li>
+
+
+    </ion-list>
+  </ion-content>
+</ion-view>

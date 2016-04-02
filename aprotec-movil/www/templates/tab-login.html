@@ -1,0 +1,17 @@
+<ion-view title="Inicie sesión">
+    <ion-content padding="true" class="has-header">
+        <form>
+            <ion-list>
+                <label class="item item-input">
+                    <span class="input-label">Correo electrónico</span>
+                    <input type="email" placeholder="Ingrese su usuario" ng-model="data.email">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Contraseña</span>
+                    <input type="password" placeholder="Ingrese su contraseña" ng-model="data.password">
+                </label>
+            </ion-list>
+            <button class="button button-stable button-block" ng-click="login()">Iniciar sesión</button>
+        </form>
+    </ion-content>
+</ion-view>
