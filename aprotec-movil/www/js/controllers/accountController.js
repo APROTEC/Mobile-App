@@ -31,9 +31,7 @@ angular.module('controllers.accountController', [])
 	// ----          Funciones de Prueba         ---- //
 	////////////////////////////////////////////////////
 
-	$scope.cambioSelectNuevoGradoAcademico = function(selectNuevoGradoAcademico) {
-    	console.log("Hola");
-	};
+	
 
 	////////////////////////////////////////////////////
 	// ----          Funciones generales         ---- //
@@ -41,7 +39,6 @@ angular.module('controllers.accountController', [])
   	$scope.alerta = function(texto) {
   		alert(texto);
 	};
-
 
 	$scope.funcionDummy = function() {
 		//Esta funcion no hace nada, es una funcion dummie para pasar por parametro a la confirmacion.
@@ -65,16 +62,21 @@ angular.module('controllers.accountController', [])
 
 
 	////////////////////////////////////////////////////
-	// ---- Funciones para modificar componentes ---- //
+	// ---- Funciones activadas por componentes  ---- //
 	////////////////////////////////////////////////////
-	$scope.llenarDatos = function(){
-		$scope.getGradosAcademicosPersona();
-		
-		$scope.getGradosAcademicos();
-		$scope.getSedes();
-		
+
+	$scope.addGradoAcademicoPersona = function(gradoAcademicoSeleccionado){
+		objGradoAcademico = JSON.parse($scope.gradoAcademico);
+		$http.post('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + objGradoAcademico.codigo_grado_academico).
+        success(function(resp) {
+            console.log(resp);
+        });
+
 	};
 
+	$scope.changeSelectGradosAcademicos = function(gradoAcademicoSeleccionado){
+		$scope.gradoAcademico = gradoAcademicoSeleccionado;
+	};
 
 	$scope.removerGrado = function (index,gradoAcademico) {
 		var funcionTrue = function(){$scope.removerGradoConfirmado(index,gradoAcademico);};
@@ -82,6 +84,18 @@ angular.module('controllers.accountController', [])
 		var mensaje = "Estas seguro de que quieres eliminar tu grado academico: " + gradoAcademico.nivel_especializacion + ' en ' + gradoAcademico.campo_estudio + "?"
 		$scope.confirmacion(mensaje,funcionTrue,funcionFalse);
 	};
+
+
+	////////////////////////////////////////////////////
+	// ---- Funciones para modificar componentes ---- //
+	////////////////////////////////////////////////////
+	$scope.llenarDatos = function(){
+		$scope.getGradosAcademicosPersona();
+		$scope.getGradosAcademicos();
+		$scope.getSedes();
+	};
+
+	
 	$scope.removerGradoConfirmado = function (index,gradoAcademico) {
 		$scope.listaGradosAcademicosPersona.splice(index,1);
 		$scope.removerGradoAcademicoEnBD(gradoAcademico);
@@ -97,9 +111,6 @@ angular.module('controllers.accountController', [])
             $scope.listaGradosAcademicosPersona = resp;
             if($scope.listaGradosAcademicosPersona.length > 0){
             	$scope.hayGradosAcademicos = " ";
-
-
-            	
             }
             
         });
@@ -109,9 +120,6 @@ angular.module('controllers.accountController', [])
 		$http.get('http://'+ $scope.IP +':8081/grados_academicos/').
         success(function(resp) {
             $scope.listaGradosAcademicos = resp;
-            //console.log($scope.listaGradosAcademicosPersona);
-        	//$scope.gradoAcademico = $scope.listaGradosAcademicos[0];
-      
         });
 	};
 
@@ -169,16 +177,6 @@ angular.module('controllers.accountController', [])
 	// ----    Llamadas iniciales a funciones    ---- //
 	////////////////////////////////////////////////////
 	$scope.getUsuario();
-
-
-	$scope.funcion = function(gradoAcademicoSeleccionado){
-	
-		console.log($scope.gradoAcademico);
-	};
-	$scope.change = function(gradoAcademicoSeleccionado){
-		$scope.gradoAcademico = gradoAcademicoSeleccionado;
-	};
-	
 
 
 });

@@ -50,13 +50,13 @@
 			    <div class="input-label">
 			      Nuevo Grado Académico
 			    </div>
-			    <select ng-model = "gradoAcademico" ng-change = "change(gradoAcademico)">
+			    <select ng-model = "gradoAcademico" ng-change = "changeSelectGradosAcademicos(gradoAcademico)">
 			      <option ng-repeat="gradoAcademicoSelect in listaGradosAcademicos" value = "{{gradoAcademicoSelect}}" >{{gradoAcademicoSelect.campo_estudio}}</option>
 			    </select>
 		   	</label>
 		</div>
 	  	<div class="col">
-	  		<button class="button button-stable" ng-click = "funcion(gradoAcademicoSelect)">
+	  		<button class="button button-stable" ng-click = "addGradoAcademicoPersona(gradoAcademicoSeleccionado)">
 	  			<i class="icon ion-plus-circled color-azul"></i>
 	  		</button>
 	  	</div>
