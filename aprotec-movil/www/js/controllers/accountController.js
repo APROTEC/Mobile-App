@@ -1,11 +1,11 @@
 angular.module('controllers.accountController', [])
 .controller('AccountCtrl', function($scope, $ionicPopup, $http, $stateParams) {
 
-	console.log("ProspectsCtrl StateParams: ", $stateParams.id);
 
 	
 
-	$scope.codigoUsuario = $stateParams.id;
+	$scope.codigoUsuario = window.localStorage['codigo_usuario'];
+
 
 	$scope.usuario;
 	$scope.persona;

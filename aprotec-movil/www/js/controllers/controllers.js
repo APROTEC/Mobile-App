@@ -1,3 +1,3 @@
-angular.module('controllers', ['controllers.loginController','controllers.accountController']);
+angular.module('controllers', ['controllers.loginController','controllers.accountController','controllers.eventsController']);
 
 

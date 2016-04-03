@@ -32,6 +32,12 @@ angular.module('starter', ['ionic', 'controllers'])
   $stateProvider
 
 
+  .state('login', {
+    url: '/login',
+    templateUrl : 'templates/tab-login.html',
+    controller : 'LoginCtrl'
+  })
+
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
@@ -39,31 +45,29 @@ angular.module('starter', ['ionic', 'controllers'])
     templateUrl: 'templates/tabs.html'
   })
 
+
   .state('tab.events', {
-    url: '/events/',
+    url: '/events',
     views: {
       'tab-events': {
-        templateUrl: 'templates/tab-events.html'
+        templateUrl: 'templates/tab-events.html',
+        controller: 'AccountCtrl'
       }
     }
   })
 
   .state('tab.account', {
-    url: '/account/:id',
+    url: '/account',
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
       }
     }
-  })
-
-
-  .state('login', {
-    url: '/login',
-    templateUrl : 'templates/tab-login.html',
-    controller : 'LoginCtrl'
   });
+
+
+  
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

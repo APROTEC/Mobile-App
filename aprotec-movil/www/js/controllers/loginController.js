@@ -1,10 +1,11 @@
 angular.module('controllers.loginController', [])
 .controller('LoginCtrl', function($scope, $state, $http, $ionicPopup) {
+  window.localStorage['codigo_usuario'] = '';
  
 
 	$scope.data = {};
 	
-	$scope.IP = "localhost"
+	$scope.IP = "192.168.0.18"
  
  	$scope.login = function(){ 
   		//console.log($scope.data.email);
@@ -16,9 +17,10 @@ angular.module('controllers.loginController', [])
             if(resp.length > 0){
             	var usuario = resp[0];
             	var codigo_usuario = usuario.codigo_usuario;
+              window.localStorage['codigo_usuario'] = codigo_usuario;
             	//console.log(usuario);
   				//console.log(codigo_usuario);
-            	$state.transitionTo("tab.account", {id:codigo_usuario});
+            	$state.transitionTo("tab.events", "");
             } else {
             	var alertPopup = $ionicPopup.alert({
 			        title: 'Login Invalido',
