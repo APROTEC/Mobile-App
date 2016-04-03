@@ -20,11 +20,22 @@ angular.module('controllers.accountController', [])
 	$scope.listaDepartamentos = [];
 	$scope.listaSubDepartamentos = [];
 	$scope.listaSedes = [];
+	$scope.listaCantones = [];
+	$scope.listaProvincias = [];
 
 	$scope.hayGradosAcademicos = "No has agregado tus grados academicos";
+
 	$scope.textoPrevioDepto = "PreDepto";
 	$scope.textoDepartamento = "Depto";
 	$scope.textoSubDepartamento = "Sub-Depto";
+
+	$scope.textoPrevioProv = "PreProv";
+	$scope.textoProvincia = "Prov";
+	$scope.textoCanton = "Cantoon";
+
+	$scope.textoPrevioSede = "PreSede";
+	$scope.textoSede = "Sede";
+
 
 
 
@@ -98,25 +109,45 @@ angular.module('controllers.accountController', [])
 		$scope.getSubDepartamentos(objDepartamento.codigo_departamento);
 		$scope.textoPrevioDepto = objDepartamento.nombre_departamento;
 	};
-
 	$scope.editSubDepartamentoPersona = function(){
 		objSubDepartamento = JSON.parse($scope.SelectSubDepartamento);
 		$scope.editSubDepartamentoPersonaBD(objSubDepartamento);
 		$scope.textoSubDepartamento = objSubDepartamento.nombre_sub_departamento;
 		$scope.textoDepartamento = $scope.textoPrevioDepto;
 	};
-
 	$scope.changeSelectSubDepartamento = function(SelecSubDepartamento){
 		$scope.SelectSubDepartamento = SelecSubDepartamento;
 	};
 
+
+	$scope.changeSelectProvincia = function(SelectProvincia){
+		$scope.SelectProvincia = SelectProvincia;
+		objProvincia = JSON.parse($scope.SelectProvincia);
+		$scope.getCantones(objProvincia.codigo_provincia);
+		$scope.textoPrevioProv = objProvincia.nombre_provincia;
+	};
+	$scope.editCantonPersona = function(){
+		objCanton = JSON.parse($scope.SelectCanton);
+		$scope.editCantonPersonaBD(objCanton);
+		$scope.textoCanton = objSubCanton.nombre_canton;
+		$scope.textoProvincia = $scope.textoPrevioProv;
+	};
+	$scope.changeSelectCanton = function(SelectCanton){
+		$scope.SelectCanton = SelectCanton;
+	};
+
+
 	$scope.editSede = function(){
 		objSede = JSON.parse($scope.SelectSede);
 		$scope.editSedeBD(objSede);
+		$scope.textoSede = $scope.textoPrevioSede;
 	};
 
 	$scope.changeSelectSede = function(SelectSede){
 		$scope.SelectSede = SelectSede;
+		objSede = JSON.parse($scope.SelectSede);
+		$scope.textoPrevioSede = objSede.nombre_sede;
+		console.log($scope.textoPrevioSede);
 	};
 
 	$scope.changeJefeToggle = function(toggleCargoJefatura){
@@ -137,6 +168,7 @@ angular.module('controllers.accountController', [])
 		$scope.getSedes();
 		$scope.getDepartamentos();
 		$scope.getCargoJefatura();
+		$scope.getProvincias();
 		$scope.getVegetariano();
 	};
 
@@ -175,6 +207,13 @@ angular.module('controllers.accountController', [])
         });
 	};	
 
+	$scope.getProvincias = function(){
+		$http.get('http://'+ $scope.IP +':8081/provincias/').
+        success(function(resp) {
+        	$scope.getProvinciaPersona(resp);
+        });
+	};	
+
 	$scope.getDepartamentoPersona = function(departamentos){ //Tiene que comparar subDepartamentos
 		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/' + $scope.persona.codigo_sub_departamento).
         success(function(resp) {
@@ -196,6 +235,27 @@ angular.module('controllers.accountController', [])
         });
 	};
 
+	$scope.getProvinciaPersona = function(provincias){ //Tiene que comparar cantones
+		$http.get('http://'+ $scope.IP +':8081/cantones/' + $scope.persona.codigo_canton).
+        success(function(resp) {
+        	//console.log(provincias);
+        	//console.log(resp);
+        	var cantonPersona = resp[0];
+        	var ProvinciaSeleccionada;
+        	for (var i = provincias.length - 1; i >= 0; i--) {
+        		if(provincias[i].codigo_provincia == cantonPersona.codigo_provincia){
+        			ProvinciaSeleccionada = provincias.splice(i,1);
+        			$scope.listaProvincias = ProvinciaSeleccionada.concat(provincias);
+        			//console.log($scope.listaDepartamentos);
+        			break;
+        		}
+        	};
+        	$scope.textoProvincia = $scope.listaProvincias[0].nombre_provincia;
+        	$scope.SelectProvincia = $scope.listaProvincias[0]; //No esta funcionando :'v
+        	$scope.getCantones(ProvinciaSeleccionada[0].codigo_provincia);
+        });
+	};
+
 	$scope.getSubDepartamentos = function(codigoDepartamento){
 		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/departamentos/' + codigoDepartamento).
         success(function(resp) {
@@ -204,9 +264,9 @@ angular.module('controllers.accountController', [])
         	for (var i = subDepartamentos.length - 1; i >= 0; i--) {
         		if(subDepartamentos[i].codigo_sub_departamento  == $scope.persona.codigo_sub_departamento){
         			coincideSubDepartamento = true;
-        			subDepartamentoSeleccionado = subDepartamentos.splice(i,1);
+        			var subDepartamentoSeleccionado = subDepartamentos.splice(i,1); //SI ALGO SE CAE ENN DEPTOS QUITAR 'var'
         			$scope.listaSubDepartamentos = subDepartamentoSeleccionado.concat(subDepartamentos);
-        			console.log($scope.listaSubDepartamentos);
+        			//console.log($scope.listaSubDepartamentos);
         			break;
         		}
         	};
@@ -215,6 +275,28 @@ angular.module('controllers.accountController', [])
         		//console.log($scope.listaSubDepartamentos);
         	}
         	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
+        });
+	};
+
+	$scope.getCantones = function(codigoProvincia){
+		$http.get('http://'+ $scope.IP +':8081/cantones/provincia/' + codigoProvincia).
+        success(function(resp) {
+        	var cantones = resp;
+        	var coincideCanton = false;
+        	for (var i = cantones.length - 1; i >= 0; i--) {
+        		if(cantones[i].codigo_canton  == $scope.persona.codigo_canton){
+        			coincideCanton = true;
+        			var cantonSeleccionado = cantones.splice(i,1);
+        			$scope.listaCantones = cantonSeleccionado.concat(cantones);
+        			console.log($scope.listaCantones);
+        			break;
+        		}
+        	};
+        	if(coincideCanton == false){
+        		$scope.listaCantones = resp;
+        		console.log($scope.listaCantones);
+        	}
+        	$scope.SelectCanton = $scope.listaCantones[0];
         });
 	};
 
@@ -238,6 +320,7 @@ angular.module('controllers.accountController', [])
             	}
             };
             //console.log($scope.listaSedes);
+            $scope.textoSede = sedePersona.nombre_sede;
         });
 	}
 
@@ -298,6 +381,11 @@ angular.module('controllers.accountController', [])
 
 	$scope.editSubDepartamentoPersonaBD = function(ObjSubDepartamentos){
 		$scope.persona.codigo_sub_departamento = ObjSubDepartamentos.codigo_sub_departamento;
+		$scope.actualizarPersonaBD();
+	};
+
+	$scope.editCantonPersonaBD = function(ObjCanton){
+		$scope.persona.codigo_canton = ObjCanton.codigo_canton;
 		$scope.actualizarPersonaBD();
 	};
 

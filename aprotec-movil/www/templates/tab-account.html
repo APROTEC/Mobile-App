@@ -44,7 +44,7 @@
 	    </button>
 	</div>
 
-	
+
 	<div class="row">
 		<div class="col col-80">
 			<label class="item item-input item-select">
@@ -109,6 +109,13 @@
 	<div class="col"></div>
 	<div class="col"></div>
 
+
+	<div class="row">
+		<div class="col">
+			<h6 class="subtitle">{{textoSede}}</h6>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col col-80">
 			<label class="item item-input item-select">
@@ -142,13 +149,48 @@
 	<!--####### INFORMACIÓN PERSONAL -->
 
 	<div class="item item-divider color-grisMedio">
-    	<center>Información Personal y Residencia</center>
+    	<center>Información De Residencia</center>
   	</div>
 
-  	<label class="item item-input">
-	  <span class="input-label">Fecha de Nacimiento</span>
-	  <input type="date">
-	</label>
+  	<div class="col"></div>
+	<div class="col"></div>
+
+	<!--############################################################################################## -->
+	<div class="row">
+		<div class="col">
+			<h6 class="subtitle">{{textoProvincia + ':   ' + textoCanton}}</h6>
+		</div>
+	</div>
+
+  	
+  	<label class="item item-input item-select">
+	    <div class="input-label">
+	      Provincia
+	    </div>
+	    <select ng-model = "SelectProvincia" ng-change = "changeSelectProvincia(SelectProvincia)">
+	      <option ng-repeat="provincia in listaProvincias" value = "{{provincia}}" >{{provincia.nombre_provincia}}</option>
+	    </select>
+	 </label>
+
+
+	 <div class="row">
+		<div class="col col-80">
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Cantón
+			    </div>
+			    <select ng-model = "SelectCanton" ng-change = "changeSelectCanton(SelectCanton)">
+			      <option ng-repeat="canton in listaCantones" value = "{{canton}}" >{{canton.nombre_canton}}</option>
+			    </select>
+			 </label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "editCantonPersona()">
+	  			<i class="icon ion-checkmark-circled color-verde"></i>
+	  		</button>
+	  	</div>
+	</div>
+  	
 
 
 	<!--####### GUSTOS Y PREFERENCIAS -->
@@ -157,7 +199,7 @@
     	<center>Gustos y Preferencias</center>
   	</div>
 
-	<!--############################################################################################## -->
+	
 
   	<ion-toggle toggle-class="toggle-balanced"
                     ng-model="toggleVegetariano"
