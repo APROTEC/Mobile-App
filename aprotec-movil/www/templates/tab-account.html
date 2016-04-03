@@ -48,7 +48,7 @@
 		<div class="col col-80">
 			<label class="item item-input item-select">
 			    <div class="input-label">
-			      Nuevo Grado Académico
+			      Agregar
 			    </div>
 			    <select ng-model = "gradoAcademico" ng-change = "changeSelectGradosAcademicos(gradoAcademico)">
 			      <option ng-repeat="gradoAcademicoSelect in listaGradosAcademicos" value = "{{gradoAcademicoSelect}}" >{{gradoAcademicoSelect.campo_estudio}}</option>
@@ -62,7 +62,7 @@
 	  	</div>
 	</div>
 
-	<!--####### INFORMACION PROFESIONAL -->
+	<!--####### INFORMACION INSTITUCIONAL -->
 
 	<div class="item item-divider color-grisMedio">
     	<center>Informacion Institucional</center>
@@ -70,6 +70,12 @@
 
 	<div class="col"></div>
 	<div class="col"></div>
+
+	<div class="row">
+		<div class="col">
+			<h6 class="subtitle">{{textoDepartamento + ':   ' + textoSubDepartamento}}</h6>
+		</div>
+	</div>
 
 	<label class="item item-input item-select">
 	    <div class="input-label">
@@ -123,9 +129,6 @@
 	<div class="col"></div>
 	<div class="col"></div>
 
-
-	<!--############################################################################################## -->
-
 	<ion-toggle toggle-class="toggle-balanced"
                     ng-model="toggleCargoJefatura"
                     ng-true-value="1"
@@ -153,16 +156,15 @@
     	<center>Gustos y Preferencias</center>
   	</div>
 
+	<!--############################################################################################## -->
 
-  	<li class="item item-toggle">
-	    Vegetariano
-	    <label class="toggle toggle-balanced">
-	      <input type="checkbox">
-	      <div class="track">
-	        <div class="handle"></div>
-	      </div>
-	    </label>
-	</li>
+  	<ion-toggle toggle-class="toggle-balanced"
+                    ng-model="toggleVegetariano"
+                    ng-true-value="1"
+                    ng-false-value="0"
+                    ng-change = "changeToggleVegetariano(toggleVegetariano)">
+    	Vegetariano
+    </ion-toggle>
 
 
     </ion-list>

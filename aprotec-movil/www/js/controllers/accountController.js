@@ -20,7 +20,11 @@ angular.module('controllers.accountController', [])
 	$scope.listaDepartamentos = [];
 	$scope.listaSubDepartamentos = [];
 	$scope.listaSedes = [];
-	$scope.hayGradosAcademicos = "No has agregado tus grados academicos"
+
+	$scope.hayGradosAcademicos = "No has agregado tus grados academicos";
+	$scope.textoDepto_subDepto = "Depto - Sub-Depto";
+	$scope.textoDepartamento = "Depto";
+	$scope.textoSubDepartamento = "Sub-Depto";
 
 
 
@@ -116,6 +120,9 @@ angular.module('controllers.accountController', [])
     	$scope.changeJefeToggleBD(toggleCargoJefatura);
     };
 	
+	$scope.changeToggleVegetariano = function(toggleVegetariano){
+    	$scope.changeToggleVegetarianoBD(toggleVegetariano);
+    };
 
 
 	////////////////////////////////////////////////////
@@ -127,6 +134,7 @@ angular.module('controllers.accountController', [])
 		$scope.getSedes();
 		$scope.getDepartamentos();
 		$scope.getCargoJefatura();
+		$scope.getVegetariano();
 	};
 
 	
@@ -179,6 +187,7 @@ angular.module('controllers.accountController', [])
         			break;
         		}
         	};
+        	$scope.textoDepartamento = $scope.listaDepartamentos[0].nombre_departamento;
         	$scope.SelectDepartamento = $scope.listaDepartamentos[0]; //No esta funcionando :'v
         	$scope.getSubDepartamentos(departamentoSeleccionado[0].codigo_departamento);
         });
@@ -202,6 +211,7 @@ angular.module('controllers.accountController', [])
         		$scope.listaSubDepartamentos = resp;
         		//console.log($scope.listaSubDepartamentos);
         	}
+        	$scope.textoSubDepartamento = $scope.listaSubDepartamentos[0].nombre_sub_departamento;
         	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
         });
 	};
@@ -247,12 +257,19 @@ angular.module('controllers.accountController', [])
         });
 	};
 
-
 	$scope.getCargoJefatura = function(){
 		if ($scope.persona.cargo_jefatura == true){
-			toggleCargoJefatura = 1;
+			$scope.toggleCargoJefatura = 1;
 		} else {
-			toggleCargoJefatura = 0;
+			$scope.toggleCargoJefatura = 0;
+		}
+	};
+
+	$scope.getVegetariano = function(){
+		if ($scope.persona.vegetariano == true){
+			$scope.toggleVegetariano = 1;
+		} else {
+			$scope.toggleVegetariano = 0;
 		}
 	};
 
@@ -293,6 +310,15 @@ angular.module('controllers.accountController', [])
 			$scope.persona.cargo_jefatura = true;
 		} else {
 			$scope.persona.cargo_jefatura = false;
+		}
+		$scope.actualizarPersonaBD();
+	};
+
+	$scope.changeToggleVegetarianoBD = function(toggleVegetariano){
+		if(toggleVegetariano){
+			$scope.persona.vegetariano = true;
+		} else {
+			$scope.persona.vegetariano = false;
 		}
 		$scope.actualizarPersonaBD();
 	};
