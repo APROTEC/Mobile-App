@@ -99,32 +99,40 @@
 	  	</div>
 	</div>
 
-	 <!--############################################################################################## -->
+	<div class="col"></div>
+	<div class="col"></div>
+
+	<div class="row">
+		<div class="col col-80">
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Sede
+			    </div>
+			    <select ng-model = "SelectSede" ng-change = "changeSelectSede(SelectSede)">
+			      <option ng-repeat="sede in listaSedes" value = "{{sede}}" >{{sede.nombre_sede}}</option>
+			    </select>
+		   	</label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "editSede()">
+	  			<i class="icon ion-checkmark-circled color-verde"></i>
+	  		</button>
+	  	</div>
+	</div>
 
 	<div class="col"></div>
 	<div class="col"></div>
 
-	<label class="item item-input item-select">
-	    <div class="input-label">
-	      Sede
-	    </div>
-	    <select>
-	      <option ng-repeat="sede in listaSedes">{{sede.nombre_sede}}</option>
-	    </select>
-   	</label>
 
-	<div class="col"></div>
-	<div class="col"></div>
+	<!--############################################################################################## -->
 
-	<li class="item item-toggle">
-	    Posee Cargo de Jefatura
-	    <label class="toggle toggle-balanced">
-	      <input type="checkbox">
-	      <div class="track">
-	        <div class="handle"></div>
-	      </div>
-	    </label>
-	</li>
+	<ion-toggle toggle-class="toggle-balanced"
+                    ng-model="toggleCargoJefatura"
+                    ng-true-value="1"
+                    ng-false-value="0"
+                    ng-change = "changeJefeToggle(toggleCargoJefatura)">
+    	Posee Cargo de Jefatura
+    </ion-toggle>
 
 
 	<!--####### INFORMACIÓN PERSONAL -->

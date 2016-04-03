@@ -25,9 +25,6 @@ angular.module('controllers.accountController', [])
 
 
 
-
-
-
 	////////////////////////////////////////////////////
 	// ----          Funciones de Prueba         ---- //
 	////////////////////////////////////////////////////
@@ -75,6 +72,13 @@ angular.module('controllers.accountController', [])
 	// ---- Funciones activadas por componentes  ---- //
 	////////////////////////////////////////////////////
 
+	$scope.removerGrado = function (index,gradoAcademico) {
+		var funcionTrue = function(){$scope.removerGradoConfirmado(index,gradoAcademico);};
+		var funcionFalse = function(){$scope.funcionDummy();};
+		var mensaje = "Estas seguro de que quieres eliminar tu grado academico: " + gradoAcademico.nivel_especializacion + ' en ' + gradoAcademico.campo_estudio + "?"
+		$scope.confirmacion(mensaje,funcionTrue,funcionFalse);
+	};
+
 	$scope.addGradoAcademicoPersona = function(gradoAcademicoSeleccionado){
 		objGradoAcademico = JSON.parse($scope.gradoAcademico);
 		$scope.addGradoAcademicoPersonaBD(objGradoAcademico)
@@ -99,12 +103,19 @@ angular.module('controllers.accountController', [])
 		$scope.SelectSubDepartamento = SelecSubDepartamento;
 	};
 
-	$scope.removerGrado = function (index,gradoAcademico) {
-		var funcionTrue = function(){$scope.removerGradoConfirmado(index,gradoAcademico);};
-		var funcionFalse = function(){$scope.funcionDummy();};
-		var mensaje = "Estas seguro de que quieres eliminar tu grado academico: " + gradoAcademico.nivel_especializacion + ' en ' + gradoAcademico.campo_estudio + "?"
-		$scope.confirmacion(mensaje,funcionTrue,funcionFalse);
+	$scope.editSede = function(){
+		objSede = JSON.parse($scope.SelectSede);
+		$scope.editSedeBD(objSede);
 	};
+
+	$scope.changeSelectSede = function(SelectSede){
+		$scope.SelectSede = SelectSede;
+	};
+
+	$scope.changeJefeToggle = function(toggleCargoJefatura){
+    	$scope.changeJefeToggleBD(toggleCargoJefatura);
+    };
+	
 
 
 	////////////////////////////////////////////////////
@@ -115,6 +126,7 @@ angular.module('controllers.accountController', [])
 		$scope.getGradosAcademicos();
 		$scope.getSedes();
 		$scope.getDepartamentos();
+		$scope.getCargoJefatura();
 	};
 
 	
@@ -188,7 +200,7 @@ angular.module('controllers.accountController', [])
         	};
         	if(coincideSubDepartamento == false){
         		$scope.listaSubDepartamentos = resp;
-        		console.log($scope.listaSubDepartamentos);
+        		//console.log($scope.listaSubDepartamentos);
         	}
         	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
         });
@@ -236,6 +248,14 @@ angular.module('controllers.accountController', [])
 	};
 
 
+	$scope.getCargoJefatura = function(){
+		if ($scope.persona.cargo_jefatura == true){
+			toggleCargoJefatura = 1;
+		} else {
+			toggleCargoJefatura = 0;
+		}
+	};
+
 	////////////////////////////////////////////////////
 	// ---- Funciones de modificacion a la BD    ---- //
 	////////////////////////////////////////////////////
@@ -257,10 +277,35 @@ angular.module('controllers.accountController', [])
         });
 	};
 
-	$scope.editSubDepartamentoPersonaBD = function(objGradoAcademico){
-		//accesad BD
+	$scope.editSubDepartamentoPersonaBD = function(ObjSubDepartamentos){
+		$scope.persona.codigo_sub_departamento = ObjSubDepartamentos.codigo_sub_departamento;
+		$scope.actualizarPersonaBD();
 	};
 
+
+	$scope.editSedeBD = function(objSede){
+		$scope.persona.codigo_sede = objSede.codigo_sede;
+		$scope.actualizarPersonaBD();
+	};
+
+	$scope.changeJefeToggleBD = function(toggleCargoJefatura){
+		if(toggleCargoJefatura){
+			$scope.persona.cargo_jefatura = true;
+		} else {
+			$scope.persona.cargo_jefatura = false;
+		}
+		$scope.actualizarPersonaBD();
+	};
+
+	$scope.actualizarPersonaBD = function(){
+		var parte1 = '{"codigo_informacion_persona":' + $scope.usuario.codigo_informacion_persona + ',';
+		var parte2 = JSON.stringify($scope.persona).substring(1);
+
+		$http.put('http://'+ $scope.IP +':8081/personas/'+ parte1 + parte2).
+        success(function(resp) {
+            console.log(resp);
+        });
+	};
 
 	////////////////////////////////////////////////////
 	// ----    Llamadas iniciales a funciones    ---- //
