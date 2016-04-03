@@ -10,14 +10,15 @@ angular.module('controllers.accountController', [])
 	$scope.usuario;
 	$scope.persona;
 
-	$scope.IP = "localhost"
+	$scope.IP = "192.168.0.27"
 	// ip:8081/grados_academicos/<codigo_Persona>
 	// ip:8081/personas/<codigo_Persona>
 	// ip:8081/usuarios/<codigo_Usuario>
 
 	$scope.listaGradosAcademicosPersona = [];
 	$scope.listaGradosAcademicos = [];
-	$scope.listaDepartamentos = ["Docencia","Materiales","Financiero","Computación","Matemáticas"];
+	$scope.listaDepartamentos = [];
+	$scope.listaSubDepartamentos = [];
 	$scope.listaSedes = [];
 	$scope.hayGradosAcademicos = "No has agregado tus grados academicos"
 
@@ -60,6 +61,15 @@ angular.module('controllers.accountController', [])
 	    });
 	};
 
+	$scope.sleep = function(milliseconds) {
+		var start = new Date().getTime();
+		for (var i = 0; i < 1e7; i++) {
+	    	if ((new Date().getTime() - start) > milliseconds){
+	      		break;
+	    	}
+	  	}
+	};
+
 
 	////////////////////////////////////////////////////
 	// ---- Funciones activadas por componentes  ---- //
@@ -67,15 +77,26 @@ angular.module('controllers.accountController', [])
 
 	$scope.addGradoAcademicoPersona = function(gradoAcademicoSeleccionado){
 		objGradoAcademico = JSON.parse($scope.gradoAcademico);
-		$http.post('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + objGradoAcademico.codigo_grado_academico).
-        success(function(resp) {
-            console.log(resp);
-        });
-
+		$scope.addGradoAcademicoPersonaBD(objGradoAcademico)
 	};
 
 	$scope.changeSelectGradosAcademicos = function(gradoAcademicoSeleccionado){
 		$scope.gradoAcademico = gradoAcademicoSeleccionado;
+	};
+
+	$scope.changeSelectDepartamento = function(SelecDepartamento){
+		$scope.SelectDepartamento = SelecDepartamento;
+		objDepartamento = JSON.parse($scope.SelectDepartamento);
+		$scope.getSubDepartamentos(objDepartamento.codigo_departamento);
+	};
+
+	$scope.editSubDepartamentoPersona = function(){
+		objSubDepartamento = JSON.parse($scope.SelectSubDepartamento);
+		$scope.editSubDepartamentoPersonaBD(objSubDepartamento);
+	};
+
+	$scope.changeSelectSubDepartamento = function(SelecSubDepartamento){
+		$scope.SelectSubDepartamento = SelecSubDepartamento;
 	};
 
 	$scope.removerGrado = function (index,gradoAcademico) {
@@ -93,6 +114,7 @@ angular.module('controllers.accountController', [])
 		$scope.getGradosAcademicosPersona();
 		$scope.getGradosAcademicos();
 		$scope.getSedes();
+		$scope.getDepartamentos();
 	};
 
 	
@@ -120,6 +142,55 @@ angular.module('controllers.accountController', [])
 		$http.get('http://'+ $scope.IP +':8081/grados_academicos/').
         success(function(resp) {
             $scope.listaGradosAcademicos = resp;
+        });
+	};
+
+	$scope.getDepartamentos = function(){
+		$http.get('http://'+ $scope.IP +':8081/departamentos/').
+        success(function(resp) {
+        	$scope.getDepartamentoPersona(resp);
+        });
+	};	
+
+	$scope.getDepartamentoPersona = function(departamentos){ //Tiene que comparar subDepartamentos
+		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/' + $scope.persona.codigo_sub_departamento).
+        success(function(resp) {
+        	//console.log(departamentos);
+        	//console.log(resp);
+        	var subDepartamentoPersona = resp[0];
+        	var departamentoSeleccionado;
+        	for (var i = departamentos.length - 1; i >= 0; i--) {
+        		if(departamentos[i].codigo_departamento == subDepartamentoPersona.codigo_departamento){
+        			departamentoSeleccionado = departamentos.splice(i,1);
+        			$scope.listaDepartamentos = departamentoSeleccionado.concat(departamentos);
+        			//console.log($scope.listaDepartamentos);
+        			break;
+        		}
+        	};
+        	$scope.SelectDepartamento = $scope.listaDepartamentos[0]; //No esta funcionando :'v
+        	$scope.getSubDepartamentos(departamentoSeleccionado[0].codigo_departamento);
+        });
+	};
+
+	$scope.getSubDepartamentos = function(codigoDepartamento){
+		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/departamentos/' + codigoDepartamento).
+        success(function(resp) {
+        	var subDepartamentos = resp;
+        	var coincideSubDepartamento = false;
+        	for (var i = subDepartamentos.length - 1; i >= 0; i--) {
+        		if(subDepartamentos[i].codigo_sub_departamento  == $scope.persona.codigo_sub_departamento){
+        			coincideSubDepartamento = true;
+        			subDepartamentoSeleccionado = subDepartamentos.splice(i,1);
+        			$scope.listaSubDepartamentos = subDepartamentoSeleccionado.concat(subDepartamentos);
+        			console.log($scope.listaSubDepartamentos);
+        			break;
+        		}
+        	};
+        	if(coincideSubDepartamento == false){
+        		$scope.listaSubDepartamentos = resp;
+        		console.log($scope.listaSubDepartamentos);
+        	}
+        	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
         });
 	};
 
@@ -168,8 +239,26 @@ angular.module('controllers.accountController', [])
 	////////////////////////////////////////////////////
 	// ---- Funciones de modificacion a la BD    ---- //
 	////////////////////////////////////////////////////
-	$scope.removerGradoAcademicoEnBD = function(nombreGradoAcademico){
-		//$scope.alerta("Removiendo Grado: " + nombreGradoAcademico);
+	$scope.removerGradoAcademicoEnBD = function(gradoAcademico){
+		console.log(gradoAcademico.codigo_grado_academico);
+
+		$http.delete('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + gradoAcademico.codigo_grado_academico).
+        success(function(resp) {
+            console.log(resp);
+            $scope.getGradosAcademicosPersona();
+        });
+	};
+
+	$scope.addGradoAcademicoPersonaBD = function(objGradoAcademico){
+		$http.post('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + objGradoAcademico.codigo_grado_academico).
+        success(function(resp) {
+            console.log(resp);
+            $scope.getGradosAcademicosPersona();
+        });
+	};
+
+	$scope.editSubDepartamentoPersonaBD = function(objGradoAcademico){
+		//accesad BD
 	};
 
 

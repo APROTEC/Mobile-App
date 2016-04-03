@@ -5,7 +5,7 @@ angular.module('controllers.loginController', [])
 
 	$scope.data = {};
 	
-	$scope.IP = "192.168.0.18"
+	$scope.IP = "192.168.0.27"
  
  	$scope.login = function(){ 
   		//console.log($scope.data.email);

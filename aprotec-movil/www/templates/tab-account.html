@@ -1,4 +1,4 @@
-<ion-view view-title="Perfil">
+<ion-view view-title="Perfil" cache-view="false">
   <ion-content>
     <ion-list>
 
@@ -75,10 +75,31 @@
 	    <div class="input-label">
 	      Departamento
 	    </div>
-	    <select>
-	      <option ng-repeat="departamento in listaDepartamentos" >{{departamento}}</option>
+	    <select ng-model = "SelectDepartamento" ng-change = "changeSelectDepartamento(SelectDepartamento)">
+	      <option ng-repeat="departamento in listaDepartamentos" value = "{{departamento}}" >{{departamento.nombre_departamento}}</option>
 	    </select>
-	  </label>
+	 </label>
+
+
+	 <div class="row">
+		<div class="col col-80">
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Sub-Departamento
+			    </div>
+			    <select ng-model = "SelectSubDepartamento" ng-change = "changeSelectSubDepartamento(SelectSubDepartamento)">
+			      <option ng-repeat="subDepartamento in listaSubDepartamentos" value = "{{subDepartamento}}" >{{subDepartamento.nombre_sub_departamento}}</option>
+			    </select>
+			 </label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "editSubDepartamentoPersona()">
+	  			<i class="icon ion-checkmark-circled color-verde"></i>
+	  		</button>
+	  	</div>
+	</div>
+
+	 <!--############################################################################################## -->
 
 	<div class="col"></div>
 	<div class="col"></div>
