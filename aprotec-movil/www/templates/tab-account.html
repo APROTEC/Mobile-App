@@ -38,12 +38,13 @@
 	</div>
 
 	<div class="item item-button-right" ng-repeat="gradoAcademico in listaGradosAcademicosPersona">
-	    {{gradoAcademico.campo_estudio}}
+	    <ion-item class="item-borderless item-text-wrap">{{gradoAcademico.nivel_especializacion+' '+gradoAcademico.campo_estudio}}</ion-item>
 	    <button class="button button-stable" ng-click="removerGrado($index,gradoAcademico)">
 	    	<i class="icon ion-close-circled color-rojo"></i>
 	    </button>
 	</div>
 
+	
 	<div class="row">
 		<div class="col col-80">
 			<label class="item item-input item-select">

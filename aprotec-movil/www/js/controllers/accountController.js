@@ -22,7 +22,7 @@ angular.module('controllers.accountController', [])
 	$scope.listaSedes = [];
 
 	$scope.hayGradosAcademicos = "No has agregado tus grados academicos";
-	$scope.textoDepto_subDepto = "Depto - Sub-Depto";
+	$scope.textoPrevioDepto = "PreDepto";
 	$scope.textoDepartamento = "Depto";
 	$scope.textoSubDepartamento = "Sub-Depto";
 
@@ -96,11 +96,14 @@ angular.module('controllers.accountController', [])
 		$scope.SelectDepartamento = SelecDepartamento;
 		objDepartamento = JSON.parse($scope.SelectDepartamento);
 		$scope.getSubDepartamentos(objDepartamento.codigo_departamento);
+		$scope.textoPrevioDepto = objDepartamento.nombre_departamento;
 	};
 
 	$scope.editSubDepartamentoPersona = function(){
 		objSubDepartamento = JSON.parse($scope.SelectSubDepartamento);
 		$scope.editSubDepartamentoPersonaBD(objSubDepartamento);
+		$scope.textoSubDepartamento = objSubDepartamento.nombre_sub_departamento;
+		$scope.textoDepartamento = $scope.textoPrevioDepto;
 	};
 
 	$scope.changeSelectSubDepartamento = function(SelecSubDepartamento){
@@ -211,7 +214,6 @@ angular.module('controllers.accountController', [])
         		$scope.listaSubDepartamentos = resp;
         		//console.log($scope.listaSubDepartamentos);
         	}
-        	$scope.textoSubDepartamento = $scope.listaSubDepartamentos[0].nombre_sub_departamento;
         	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
         });
 	};
