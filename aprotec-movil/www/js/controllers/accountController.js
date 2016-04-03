@@ -1,5 +1,5 @@
 angular.module('controllers.accountController', [])
-.controller('AccountCtrl', function($scope, $ionicPopup, $http, $stateParams) {
+.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams) {
 
 
 	
@@ -28,13 +28,16 @@ angular.module('controllers.accountController', [])
 	$scope.textoPrevioDepto = "PreDepto";
 	$scope.textoDepartamento = "Depto";
 	$scope.textoSubDepartamento = "Sub-Depto";
-
+	$scope.primeraVezSubDepto = true;
 	$scope.textoPrevioProv = "PreProv";
 	$scope.textoProvincia = "Prov";
 	$scope.textoCanton = "Cantoon";
+	$scope.primeraVezCanton = true;
 
 	$scope.textoPrevioSede = "PreSede";
 	$scope.textoSede = "Sede";
+	$scope.textoPrevioTalla = "PreTalla";
+	$scope.textoTalla = "Tala";
 
 
 
@@ -73,13 +76,16 @@ angular.module('controllers.accountController', [])
 	    });
 	};
 
-	$scope.sleep = function(milliseconds) {
-		var start = new Date().getTime();
-		for (var i = 0; i < 1e7; i++) {
-	    	if ((new Date().getTime() - start) > milliseconds){
-	      		break;
-	    	}
-	  	}
+	$scope.logout = function() {
+		var funcionTrue = function(){$scope.logoutConfirmado();};
+		var funcionFalse = function(){$scope.funcionDummy();};
+		var mensaje = "Estas seguro de que quieres cerrar sesión?";
+		$scope.confirmacion(mensaje,funcionTrue,funcionFalse);
+	};
+
+	$scope.logoutConfirmado = function(){
+		window.localStorage['codigo_usuario'] = null;
+        $state.transitionTo("login", "");
 	};
 
 
@@ -90,7 +96,7 @@ angular.module('controllers.accountController', [])
 	$scope.removerGrado = function (index,gradoAcademico) {
 		var funcionTrue = function(){$scope.removerGradoConfirmado(index,gradoAcademico);};
 		var funcionFalse = function(){$scope.funcionDummy();};
-		var mensaje = "Estas seguro de que quieres eliminar tu grado academico: " + gradoAcademico.nivel_especializacion + ' en ' + gradoAcademico.campo_estudio + "?"
+		var mensaje = "Estas seguro de que quieres eliminar tu grado academico: " + gradoAcademico.nivel_especializacion + ' en ' + gradoAcademico.campo_estudio + "?";
 		$scope.confirmacion(mensaje,funcionTrue,funcionFalse);
 	};
 
@@ -115,8 +121,8 @@ angular.module('controllers.accountController', [])
 		$scope.textoSubDepartamento = objSubDepartamento.nombre_sub_departamento;
 		$scope.textoDepartamento = $scope.textoPrevioDepto;
 	};
-	$scope.changeSelectSubDepartamento = function(SelecSubDepartamento){
-		$scope.SelectSubDepartamento = SelecSubDepartamento;
+	$scope.changeSelectSubDepartamento = function(SelectSubDepartamento){
+		$scope.SelectSubDepartamento = SelectSubDepartamento;
 	};
 
 
@@ -129,7 +135,7 @@ angular.module('controllers.accountController', [])
 	$scope.editCantonPersona = function(){
 		objCanton = JSON.parse($scope.SelectCanton);
 		$scope.editCantonPersonaBD(objCanton);
-		$scope.textoCanton = objSubCanton.nombre_canton;
+		$scope.textoCanton = objCanton.nombre_canton;
 		$scope.textoProvincia = $scope.textoPrevioProv;
 	};
 	$scope.changeSelectCanton = function(SelectCanton){
@@ -148,6 +154,19 @@ angular.module('controllers.accountController', [])
 		objSede = JSON.parse($scope.SelectSede);
 		$scope.textoPrevioSede = objSede.nombre_sede;
 		console.log($scope.textoPrevioSede);
+	};
+
+	$scope.editTalla = function(){
+		objTalla = JSON.parse($scope.SelectTallaCamisa);
+		$scope.editTallaBD(objTalla);
+		$scope.textoTalla = $scope.textoPrevioTalla;
+	}; 
+
+	$scope.changeSelectTallaCamisa = function(SelectTallaCamisa){
+		$scope.SelectTallaCamisa = SelectTallaCamisa;
+		objTalla = JSON.parse($scope.SelectTallaCamisa);
+		$scope.textoPrevioTalla = objTalla.codigo_talla_camisa;
+		console.log($scope.textoPrevioTalla);
 	};
 
 	$scope.changeJefeToggle = function(toggleCargoJefatura){
@@ -170,6 +189,7 @@ angular.module('controllers.accountController', [])
 		$scope.getCargoJefatura();
 		$scope.getProvincias();
 		$scope.getVegetariano();
+		$scope.getTallas();
 	};
 
 	
@@ -251,6 +271,7 @@ angular.module('controllers.accountController', [])
         		}
         	};
         	$scope.textoProvincia = $scope.listaProvincias[0].nombre_provincia;
+        	console.log($scope.textoProvincia);
         	$scope.SelectProvincia = $scope.listaProvincias[0]; //No esta funcionando :'v
         	$scope.getCantones(ProvinciaSeleccionada[0].codigo_provincia);
         });
@@ -274,6 +295,10 @@ angular.module('controllers.accountController', [])
         		$scope.listaSubDepartamentos = resp;
         		//console.log($scope.listaSubDepartamentos);
         	}
+        	if($scope.primeraVezSubDepto){
+        		$scope.textoSubDepartamento = $scope.listaSubDepartamentos[0].nombre_sub_departamento;
+        		$scope.primeraVezSubDepto = false;
+        	}
         	$scope.SelectSubDepartamento = $scope.listaSubDepartamentos[0];
         });
 	};
@@ -288,13 +313,17 @@ angular.module('controllers.accountController', [])
         			coincideCanton = true;
         			var cantonSeleccionado = cantones.splice(i,1);
         			$scope.listaCantones = cantonSeleccionado.concat(cantones);
-        			console.log($scope.listaCantones);
+        			//console.log($scope.listaCantones[0].nombre_canton);
         			break;
         		}
         	};
         	if(coincideCanton == false){
         		$scope.listaCantones = resp;
-        		console.log($scope.listaCantones);
+        		//console.log($scope.listaCantones[0].nombre_canton);
+        	}
+        	if($scope.primeraVezCanton){
+        		$scope.textoCanton = $scope.listaCantones[0].nombre_canton;
+        		$scope.primeraVezCanton = false;
         	}
         	$scope.SelectCanton = $scope.listaCantones[0];
         });
@@ -322,8 +351,31 @@ angular.module('controllers.accountController', [])
             //console.log($scope.listaSedes);
             $scope.textoSede = sedePersona.nombre_sede;
         });
-	}
+	};
+////////////////////////////////////////////////
+	$scope.getTallas = function(){
+		$http.get('http://'+ $scope.IP +':8081/tallas_camisas/').
+        success(function(resp) {
+        	$scope.getTallaPersona(resp);
+        });
+	};
 
+	$scope.getTallaPersona = function(listaTallas){
+        	var tallaPersona = {"codigo_talla_camisa":$scope.persona.codigo_talla_camisa};
+            for (var i = listaTallas.length - 1; i >= 0; i--) {
+            	if(listaTallas[i].codigo_talla_camisa == tallaPersona.codigo_talla_camisa){
+            		listaTallas.splice(i, 1);
+            		var tallaSeleccionada = [tallaPersona];
+            		console.log($scope.listaTallas);
+            		console.log(tallaSeleccionada);
+            		$scope.listaTallas = tallaSeleccionada.concat(listaTallas);
+            		break;
+            	}
+            };
+            //console.log($scope.listaTallas);
+            $scope.textoTalla = $scope.persona.codigo_talla_camisa;
+	};
+/////////////////////////////////////////////////
 	$scope.getUsuario = function(){
 		$http.get('http://'+ $scope.IP +':8081/usuarios/'+ $scope.codigoUsuario).
         success(function(data) {
@@ -392,6 +444,11 @@ angular.module('controllers.accountController', [])
 
 	$scope.editSedeBD = function(objSede){
 		$scope.persona.codigo_sede = objSede.codigo_sede;
+		$scope.actualizarPersonaBD();
+	};
+
+	$scope.editTallaBD = function(objTalla){
+		$scope.persona.codigo_talla_camisa = objTalla.codigo_talla_camisa;
 		$scope.actualizarPersonaBD();
 	};
 

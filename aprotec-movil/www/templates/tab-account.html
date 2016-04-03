@@ -209,6 +209,51 @@
     	Vegetariano
     </ion-toggle>
 
+    <div class="col"></div>
+	<div class="col"></div>
+
+    <div class="row">
+		<div class="col">
+			<h6 class="subtitle">{{'Talla:  ' + textoTalla}}</h6>
+		</div>
+	</div>
+
+    <div class="row">
+		<div class="col col-80">
+			<label class="item item-input item-select">
+			    <div class="input-label">
+			      Talla Camisa
+			    </div>
+			    <select ng-model = "SelectTallaCamisa" ng-change = "changeSelectTallaCamisa(SelectTallaCamisa)">
+			      <option ng-repeat="talla in listaTallas" value = "{{talla}}" >{{talla.codigo_talla_camisa}}</option>
+			    </select>
+		   	</label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "editTalla()">
+	  			<i class="icon ion-checkmark-circled color-verde"></i>
+	  		</button>
+	  	</div>
+	</div>
+
+
+	<!--####### SALIR -->
+
+	<div class="item item-divider color-grisMedio">
+    	<center>Salir</center>
+  	</div>
+
+
+	<div class="row">
+		<div class="col col-25"></div>
+		<div class="col col-50">
+			<button class="button button-block button-assertive" ng-click="logout()">
+				Cerrar Sesión
+			</button>
+		</div>
+		<div class="col col-25"></div>
+	</div>
+
 
     </ion-list>
   </ion-content>

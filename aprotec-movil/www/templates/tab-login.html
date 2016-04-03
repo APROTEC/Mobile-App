@@ -2,6 +2,17 @@
     <ion-content padding="true" class="has-header">
         <form>
             <ion-list>
+
+                <div class="col"></div>
+
+                <div class="card">
+                  <div class="item item-image padding">
+                    <img src="img/logo_APROTEC.png" height="100">
+                  </div>
+                </div>
+                
+                <div class="col"></div>
+
                 <label class="item item-input">
                     <span class="input-label">Correo electrónico</span>
                     <input type="email" placeholder="Ingrese su usuario" ng-model="data.email">
@@ -10,8 +21,11 @@
                     <span class="input-label">Contraseña</span>
                     <input type="password" placeholder="Ingrese su contraseña" ng-model="data.password">
                 </label>
+
+
+
             </ion-list>
-            <button class="button button-stable button-block" ng-click="login()">Iniciar sesión</button>
+                <button class="button button-stable button-block" ng-click="login()">Iniciar sesión</button>
         </form>
     </ion-content>
 </ion-view>
