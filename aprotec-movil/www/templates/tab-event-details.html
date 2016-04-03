@@ -1,0 +1,82 @@
+<ion-view view-title="Evento" cache-view="false">
+  <ion-content>
+    <ion-list>
+
+    
+    <!--####### Nombre del evento -->
+
+  
+    <div class="row">
+	  <div class="col">
+				<center><h3 class="title">{{evento.nombre}}</h3></center>
+	  </div>
+	</div>
+
+
+
+
+	<!--####### INFORMACION GENERAL DEL EVENTO -->
+	
+	<div class="item item-divider color-grisMedio">
+    	<center>Información General</center>
+  	</div>
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Descripción: </h5>
+			<h6 class="subtitle">{{evento.descripcion}}</h6>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Fecha: </h5>
+			<h6 class="subtitle">{{getStringFecha(evento.fecha_hora)}}</h6>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Hora: </h5>
+			<h6 class="subtitle">{{getStringHora(evento.fecha_hora)}}</h6>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Lugar: </h5>
+			<h6 class="subtitle">{{evento.lugar}}</h6>
+		</div>
+	</div>
+
+
+	<!--####### Detalles del evento -->
+	
+	<div class="item item-divider color-grisMedio">
+    	<center>Detalles</center>
+  	</div>
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Número Máximo de Acompañantes: </h5>
+			<h6 class="subtitle">{{evento.numero_maximo_acompanantes}}</h6>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col">
+			<h5 class="subtitle">Tipo de Evento: </h5>
+			<h6 class="subtitle">{{tipo_evento.descripcion}}</h6>
+		</div>
+	</div>
+	<br>
+	<br>
+	 <center><button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">Confirmar asistencia</button></center>
+
+
+    </ion-list>
+  </ion-content>
+</ion-view>
+	

@@ -51,10 +51,20 @@ angular.module('starter', ['ionic', 'controllers'])
     views: {
       'tab-events': {
         templateUrl: 'templates/tab-events.html',
-        controller: 'AccountCtrl'
+        controller: 'EventsCtrl'
       }
     }
   })
+
+  .state('tab.events-details', {
+      url: '/events/:codigo_evento-:confirm',
+      views: {
+        'tab-events': {
+          templateUrl: 'templates/tab-event-details.html',
+          controller: 'EventsDetailsCtrl'
+        }
+      }
+    })
 
   .state('tab.account', {
     url: '/account',
