@@ -1,6 +1,6 @@
 angular.module('controllers.eventsDetailsController', [])
 .controller('EventsDetailsCtrl', function($scope, $state, $http, $ionicPopup,$stateParams) {
-	$scope.ip = '192.168.0.18';
+	$scope.ip = 'localhost';
 	$scope.getEvento = function(){
 		$http.get('http://'+ $scope.ip +':8081/eventos/'+ $scope.codigo_evento).
         success(function(resp) {

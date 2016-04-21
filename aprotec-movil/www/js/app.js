@@ -38,6 +38,12 @@ angular.module('starter', ['ionic', 'controllers'])
     controller : 'LoginCtrl'
   })
 
+  .state('changepassword', {
+    url: '/changepassword',
+    templateUrl : 'templates/changepassword.html',
+    controller : 'ChangePasswCtrl'
+  })
+
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',

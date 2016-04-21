@@ -10,7 +10,7 @@ angular.module('controllers.accountController', [])
 	$scope.usuario;
 	$scope.persona;
 
-	$scope.IP = "192.168.0.27"
+	$scope.IP = "localhost"
 	// ip:8081/grados_academicos/<codigo_Persona>
 	// ip:8081/personas/<codigo_Persona>
 	// ip:8081/usuarios/<codigo_Usuario>
@@ -175,6 +175,11 @@ angular.module('controllers.accountController', [])
 	
 	$scope.changeToggleVegetariano = function(toggleVegetariano){
     	$scope.changeToggleVegetarianoBD(toggleVegetariano);
+    };
+
+    $scope.changePassword = function(){
+    	console.log($scope.codigoUsuario);
+    	$state.transitionTo("changepassword", "");
     };
 
 
@@ -377,11 +382,15 @@ angular.module('controllers.accountController', [])
 	};
 /////////////////////////////////////////////////
 	$scope.getUsuario = function(){
+		//console.log($scope.codigoUsuario);
 		$http.get('http://'+ $scope.IP +':8081/usuarios/'+ $scope.codigoUsuario).
         success(function(data) {
             $scope.usuario = data[0];
             $scope.getPersona();
-            //console.log($scope.usuario);
+            //console.log($scope.usuario.codigo_usuario);
+            //window.localStorage['codigo_usuario'] = $scope.usuario.codigo_usuario;
+            //$scope.codigoUsuario = window.localStorage['codigo_usuario'];
+            //console.log($scope.codigoUsuario);
         });
 	};
 
