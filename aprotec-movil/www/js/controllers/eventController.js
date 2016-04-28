@@ -104,7 +104,7 @@ angular.module('controllers.eventsController', [])
 
 
 
-	$scope.ip =  "localhost";
+	$scope.ip = window.localStorage['direccionIpPuerto'];
 	$scope.codigo_usuario = window.localStorage['codigo_usuario'];
 	$scope.getEventosInvitados();
 	$scope.getEventosAAsistir();

@@ -10,7 +10,7 @@ angular.module('controllers.accountController', [])
 	$scope.usuario;
 	$scope.persona;
 
-	$scope.IP = "localhost"
+	$scope.IP = window.localStorage['direccionIpPuerto'];
 	// ip:8081/grados_academicos/<codigo_Persona>
 	// ip:8081/personas/<codigo_Persona>
 	// ip:8081/usuarios/<codigo_Usuario>

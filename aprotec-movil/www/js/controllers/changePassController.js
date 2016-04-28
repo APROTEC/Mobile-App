@@ -3,7 +3,7 @@ angular.module('controllers.changePasswordController', [])
 
 	$scope.data = {};
 	$scope.codigoUsuario = window.localStorage['codigo_usuario'];
-	$scope.IP = "localhost"
+	$scope.IP = window.localStorage['direccionIpPuerto'];
  
  	$scope.cambiarContrasena = function(){
     	

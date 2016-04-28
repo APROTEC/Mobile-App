@@ -44,6 +44,12 @@ angular.module('starter', ['ionic', 'controllers'])
     controller : 'ChangePasswCtrl'
   })
 
+  .state('recoverpassword', {
+    url: '/recoverpassword',
+    templateUrl : 'templates/recoverpassword.html',
+    controller : 'RecoverPasswCtrl'
+  })
+
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
@@ -51,6 +57,25 @@ angular.module('starter', ['ionic', 'controllers'])
     templateUrl: 'templates/tabs.html'
   })
 
+  .state('tab.actas', {
+    url: '/acts',
+    views: {
+      'tab-actas': {
+        templateUrl: 'templates/tab-acts.html',
+        controller: 'ActsCtrl'
+      }
+    }
+  })
+
+  .state('tab.forms', {
+    url: '/forms',
+    views: {
+      'tab-forms': {
+        templateUrl: 'templates/tab-forms.html',
+        controller: 'FormsCtrl'
+      }
+    }
+  })
 
   .state('tab.events', {
     url: '/events',

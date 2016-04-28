@@ -1,0 +1,27 @@
+<ion-view view-title="Encuestas" cache-view = "false">
+  <ion-content class="padding">
+    <ion-list>
+
+     
+
+      <ion-item class = "item-text-wrap item-remove-animate item-avatar item-icon-right" ng-repeat="encuesta in listaEncuestas">
+      <div class="row">
+        <div class="col">
+            <h2>{{ encuesta.nombre_encuesta }}</h2>
+            <h4>{{ encuesta.descripcion_encuesta }}</h4>
+        </div>
+        <div class="col col-10">
+            <button class="button button-positive" ng-click="abrirBrowser(acta.link_encuesta)">
+            <i class="icon ion-link"></i>
+            </button>
+        </div>
+      </div>
+            <ion-option-button class="button-assertive" ng-click="eliminarEncuestaDeUsuario(acta.codigo_encuesta)">
+              <h5>Eliminar</h5>
+            </ion-option-button>
+      </ion-item>
+
+
+    <ion-list>
+  </ion-content>
+</ion-view>
