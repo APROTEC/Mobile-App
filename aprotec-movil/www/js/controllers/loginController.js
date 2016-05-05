@@ -1,7 +1,7 @@
 angular.module('controllers.loginController', [])
 .controller('LoginCtrl', function($scope, $state, $http, $ionicPopup) {
   window.localStorage['codigo_usuario'] = '';
-  window.localStorage['direccionIpPuerto'] = '192.168.0.13';
+  window.localStorage['direccionIpPuerto'] = '192.168.43.177';
  
 
 	$scope.data = {};

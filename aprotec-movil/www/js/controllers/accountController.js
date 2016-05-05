@@ -1,5 +1,5 @@
-angular.module('controllers.accountController', [])
-.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams) {
+angular.module('controllers.accountController', ['ngCordova','ngFileUpload'])
+.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker,Upload) {
 
 
 	
@@ -55,6 +55,15 @@ angular.module('controllers.accountController', [])
   	$scope.alerta = function(texto) {
   		alert(texto);
 	};
+
+
+	
+
+	
+
+ 
+
+
 
 	$scope.funcionDummy = function() {
 		//Esta funcion no hace nada, es una funcion dummie para pasar por parametro a la confirmacion.
@@ -481,13 +490,61 @@ angular.module('controllers.accountController', [])
 
 	$scope.actualizarPersonaBD = function(){
 		var parte1 = '{"codigo_informacion_persona":' + $scope.usuario.codigo_informacion_persona + ',';
-		var parte2 = JSON.stringify($scope.persona).substring(1);
+		var personaTemp = $scope.persona;
+		delete personaTemp.foto;
+		var parte2 = JSON.stringify(personaTemp).substring(1);
 
 		$http.put('http://'+ $scope.IP +':8081/personas/'+ parte1 + parte2).
         success(function(resp) {
             console.log(resp);
         });
 	};
+
+
+
+
+	$scope.seleccionarFotos = function(){
+
+		var options = {
+		   maximumImagesCount: 1,
+		   width: 800,
+		   height: 800,
+		   quality: 80
+		};
+		$cordovaImagePicker.getPictures(options)
+		    .then(function (results) {
+		    	alert(results[0]);
+		      	$scope.uploadPhoto(results[0]);
+		    }, function(error) {
+		      	alert("Error al conseguir la foto");
+		    });
+		};
+
+
+
+
+		$scope.uploadPhoto = function(file){
+
+			Upload.upload({
+            url: "http://"+$scope.IP+":8081"+"/photos/"+$scope.usuario.codigo_informacion_persona, //webAPI exposed to upload the file
+            data:{file:file} //pass file as data, should be user ng-model
+		        }).then(function (resp) { //upload function returns a promise
+		            if(resp.data.error_code === 0){ //validate success
+		                alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
+		            } else {
+		                alert('an error occured');
+		            }
+		        }, function (resp) { //catch error
+		            console.log('Error status: ' + resp.status);
+		            alert('Error status: ' + resp.status);
+		        }, function (evt) { 
+		            console.log(evt);
+		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+		            vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+        		});
+
+			};
 
 	////////////////////////////////////////////////////
 	// ----    Llamadas iniciales a funciones    ---- //
