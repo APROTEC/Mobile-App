@@ -1,0 +1,25 @@
+<ion-view title="Cambio de Email" >
+    <ion-content padding="true" class="has-header">
+        <form>
+
+            <ion-list>
+                <div class="col"></div>
+                <label class="item item-input">
+                    <span class="input-label">Nuevo correo</span>
+                    <input type="email" placeholder="..." ng-model="data.email1">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Repetir correo</span>
+                    <input type="email" placeholder="..." ng-model="data.email2">
+                </label>
+            </ion-list>
+
+            <button class="button button-assertive button-block" ng-click="cambiarCorreo()">Confirmar Cambio</button>
+
+            <div class="col"></div>
+
+            <button class="button button-stable icon-left ion-chevron-left button-block" ng-click="regresar()">Regresar</button>
+
+        </form>
+    </ion-content>
+</ion-view>

@@ -71,9 +71,58 @@
 			<h6 class="subtitle">{{tipo_evento.descripcion}}</h6>
 		</div>
 	</div>
-	<br>
+
+
+	<label class="item item-input item-select" ng-repeat="acompananteUsuario in AcompanantesUsuarioList">
+	    <div class="input-label">
+	      {{acompananteUsuario.descripcion}}
+	    </div>
+	    <select ng-model = "gradoAcademico" ng-change = "changeSelectGradosAcademicos(gradoAcademico)">
+	      <option ng-repeat="numero in acompananteUsuario.numero_acompanantes" value = "{{numero}}" >{{numero}}</option>
+	    </select>
+   	</label>
+
+
+	
 	<br>
 	 <center><button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">Confirmar asistencia</button></center>
+
+	 <!--####### COMENTARIOS COMENTARIOS COMENTARIOS -->
+
+	<div class="col"></div>
+	<div class="col"></div>
+	<div class="item item-divider color-grisMedio">
+    	<center>Comentarios</center>
+  	</div>
+
+
+
+  	<div class="row">
+		<div class="col col-80">
+			<label class="item item-input">
+				<textarea placeholder="Commentario" ng-model="data.commentario">
+				</textarea>
+			</label>
+		</div>
+	  	<div class="col">
+	  		<button class="button button-stable" ng-click = "sendComment()">
+	  			<i class="icon ion-paper-airplane color-verde"></i>
+	  		</button>
+	  	</div>
+	</div>
+
+
+
+  	<div class="card" ng-repeat="comentario in listaComentarios"> 
+	  <div class="item item-divider calm">
+	    {{comentario[0].nombre + ' ' + comentario[0].apellidos}}
+	  </div>
+	  <div class="item item-text-wrap">
+	    {{comentario[1].comentario}}
+	  </div>
+	</div>
+
+
 
 
     </ion-list>

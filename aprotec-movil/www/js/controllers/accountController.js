@@ -1,11 +1,11 @@
-angular.module('controllers.accountController', ['ngCordova','ngFileUpload'])
-.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker,Upload) {
+angular.module('controllers.accountController', ['ngCordova'])
+.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker) {
 
 
 	
 
 	$scope.codigoUsuario = window.localStorage['codigo_usuario'];
-
+	window.localStorage['info_persona'] = null;
 
 	$scope.usuario;
 	$scope.persona;
@@ -189,6 +189,16 @@ angular.module('controllers.accountController', ['ngCordova','ngFileUpload'])
     $scope.changePassword = function(){
     	console.log($scope.codigoUsuario);
     	$state.transitionTo("changepassword", "");
+    };
+
+    $scope.cambiarCorreoPersonal = function(){
+    	//console.log($scope.codigoUsuario);
+    	window.localStorage['info_persona'] = JSON.stringify($scope.persona);
+    	window.localStorage['codigo_info_persona'] = $scope.usuario.codigo_informacion_persona;
+    	console.log($scope.usuario.codigo_informacion_persona);
+    	//console.log($scope.persona);
+    	//console.log(window.localStorage['info_persona']);
+    	$state.transitionTo("changeemail", "");
     };
 
 
@@ -380,8 +390,8 @@ angular.module('controllers.accountController', ['ngCordova','ngFileUpload'])
             	if(listaTallas[i].codigo_talla_camisa == tallaPersona.codigo_talla_camisa){
             		listaTallas.splice(i, 1);
             		var tallaSeleccionada = [tallaPersona];
-            		console.log($scope.listaTallas);
-            		console.log(tallaSeleccionada);
+            		//console.log($scope.listaTallas);
+            		//console.log(tallaSeleccionada);
             		$scope.listaTallas = tallaSeleccionada.concat(listaTallas);
             		break;
             	}
@@ -408,7 +418,7 @@ angular.module('controllers.accountController', ['ngCordova','ngFileUpload'])
         success(function(data) {
         	$scope.persona = data[0];
         	$scope.llenarDatos();
-            //console.log($scope.persona);
+            console.log($scope.persona);
         });
 	};
 

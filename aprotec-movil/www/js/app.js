@@ -38,6 +38,12 @@ angular.module('starter', ['ionic', 'controllers'])
     controller : 'LoginCtrl'
   })
 
+  .state('changeemail', {
+    url: '/changeemail',
+    templateUrl : 'templates/changeemail.html', //FALTA HACER
+    controller : 'ChangeEmailCtrl' //FALTA HACER
+  })
+
   .state('changepassword', {
     url: '/changepassword',
     templateUrl : 'templates/changepassword.html',
