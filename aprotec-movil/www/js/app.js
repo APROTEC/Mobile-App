@@ -38,17 +38,9 @@ angular.module('starter', ['ionic', 'controllers'])
     controller : 'LoginCtrl'
   })
 
-  .state('changeemail', {
-    url: '/changeemail',
-    templateUrl : 'templates/changeemail.html', //FALTA HACER
-    controller : 'ChangeEmailCtrl' //FALTA HACER
-  })
+  
 
-  .state('changepassword', {
-    url: '/changepassword',
-    templateUrl : 'templates/changepassword.html',
-    controller : 'ChangePasswCtrl'
-  })
+  
 
   .state('recoverpassword', {
     url: '/recoverpassword',
@@ -111,9 +103,27 @@ angular.module('starter', ['ionic', 'controllers'])
         controller: 'AccountCtrl'
       }
     }
+  })
+
+  .state('tab.account-changeemail', {
+    url: '/account/changeemail',
+    views: {
+      'tab-account': {
+        templateUrl : 'templates/changeEmail.html',
+        controller : 'ChangeEmailCtrl'
+      }
+    }
+  })
+
+  .state('tab.account-changepassword', {
+    url: '/account/changepassword',
+    views: {
+      'tab-account': {
+        templateUrl : 'templates/changePassword.html',
+        controller : 'ChangePasswCtrl'
+      }
+    }
   });
-
-
   
 
   // if none of the above states are matched, use this as the fallback

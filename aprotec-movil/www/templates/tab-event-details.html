@@ -73,19 +73,42 @@
 	</div>
 
 
-	<label class="item item-input item-select" ng-repeat="acompananteUsuario in AcompanantesUsuarioList">
+
+	<!--####### CONFIRMACION CONFIRMACION #########-->
+	
+	<div class="item item-divider color-grisMedio">
+    	<center>Confirmacion</center>
+  	</div>
+
+
+	<label class="item item-input item-select" ng-repeat="acompanante in acompanantes">
 	    <div class="input-label">
-	      {{acompananteUsuario.descripcion}}
+	      {{acompanante[1].descripcion}}
 	    </div>
-	    <select ng-model = "gradoAcademico" ng-change = "changeSelectGradosAcademicos(gradoAcademico)">
-	      <option ng-repeat="numero in acompananteUsuario.numero_acompanantes" value = "{{numero}}" >{{numero}}</option>
-	    </select>
-   	</label>
+	    <select>
+	    	<option ng-repeat="i in getNumber(number)" value = "{{i}}" >{{i}}</option>
+		</select>
+	</label>
+
+
 
 
 	
 	<br>
-	 <center><button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">Confirmar asistencia</button></center>
+	 <center>
+	 	<button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">
+	 		Confirmar asistencia
+	 	</button>
+	 </center>
+
+
+
+
+
+
+
+
+
 
 	 <!--####### COMENTARIOS COMENTARIOS COMENTARIOS -->
 
@@ -118,7 +141,7 @@
 	    {{comentario[0].nombre + ' ' + comentario[0].apellidos}}
 	  </div>
 	  <div class="item item-text-wrap">
-	    {{comentario[1].comentario}}
+	    {{comentario[1]}}
 	  </div>
 	</div>
 

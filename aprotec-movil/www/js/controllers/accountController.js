@@ -2,8 +2,6 @@ angular.module('controllers.accountController', ['ngCordova'])
 .controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker) {
 
 
-	
-
 	$scope.codigoUsuario = window.localStorage['codigo_usuario'];
 	window.localStorage['info_persona'] = null;
 
@@ -188,7 +186,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 
     $scope.changePassword = function(){
     	console.log($scope.codigoUsuario);
-    	$state.transitionTo("changepassword", "");
+    	$state.transitionTo("tab.account-changepassword", "");
     };
 
     $scope.cambiarCorreoPersonal = function(){
@@ -198,7 +196,7 @@ angular.module('controllers.accountController', ['ngCordova'])
     	console.log($scope.usuario.codigo_informacion_persona);
     	//console.log($scope.persona);
     	//console.log(window.localStorage['info_persona']);
-    	$state.transitionTo("changeemail", "");
+    	$state.transitionTo("tab.account-changeemail", "");
     };
 
 

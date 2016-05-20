@@ -1,5 +1,5 @@
-angular.module('controllers.formsController', [])
-.controller('FormsCtrl', function($scope, $state, $http, $ionicPopup) {
+angular.module('controllers.formsController', ['ngCordova'])
+.controller('FormsCtrl', function($scope, $state, $http, $ionicPopup, $cordovaLaunchNavigator) {
 
 	$scope.ip = window.localStorage['direccionIpPuerto'];
 	$scope.codigo_usuario = window.localStorage['codigo_usuario'];
@@ -12,7 +12,16 @@ angular.module('controllers.formsController', [])
 
   $scope.abrirBrowser = function(link) {
     //console.log(link);
-   	window.open('http://' + link);
+   	//window.open('http://' + link);
+    /*var destination = [latitude, longitude];
+    var start = 'http://' + link;
+
+    var alertPopupIncoincidencias = $ionicPopup.alert({
+                                      title: 'OPEN',
+                                      template: 'Destino: ' + destination + 'Start' + start;
+                                    });
+
+    $cordovaLaunchNavigator.navigate(destination, start);*/
   };
 
   $scope.getEncuestas = function(){

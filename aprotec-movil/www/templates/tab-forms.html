@@ -11,12 +11,12 @@
             <h4>{{ encuesta.descripcion_encuesta }}</h4>
         </div>
         <div class="col col-10">
-            <button class="button button-positive" ng-click="abrirBrowser(acta.link_encuesta)">
+            <button class="button button-positive" ng-click="abrirBrowser(encuesta.link_encuesta)">
             <i class="icon ion-link"></i>
             </button>
         </div>
       </div>
-            <ion-option-button class="button-assertive" ng-click="eliminarEncuestaDeUsuario(acta.codigo_encuesta)">
+            <ion-option-button class="button-assertive" ng-click="eliminarEncuestaDeUsuario(encuesta.codigo_encuesta)">
               <h5>Eliminar</h5>
             </ion-option-button>
       </ion-item>
