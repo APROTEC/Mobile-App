@@ -25,7 +25,7 @@ angular.module('controllers.eventsController', [])
 	    });
 	};
 	$scope.eliminarInvitacionConfirmado = function(codigo_evento){
-		$http.delete('http://'+ $scope.ip +'/usuarios_invitados/{"codigo_evento":'+ codigo_evento+',"codigo_usuario":'+$scope.codigo_usuario+'}').
+		$http.delete('http://'+ $scope.ip +':8081/usuarios_invitados/{"codigo_evento":'+ codigo_evento+',"codigo_usuario":'+$scope.codigo_usuario+'}').
 		success(function(resp) {
             $scope.getEventosInvitados();
             
@@ -44,7 +44,7 @@ angular.module('controllers.eventsController', [])
 
 
 	$scope.eliminarConfirmacionConfirmado = function(codigo_evento){
-		$http.put('http://'+ $scope.ip +'/usuarios_invitados/{"codigo_evento":'+codigo_evento+',"codigo_usuario":'+$scope.codigo_usuario+',"confirmado":0,"precio_entradas":0}').
+		$http.put('http://'+ $scope.ip +':8081/usuarios_invitados/{"codigo_evento":'+codigo_evento+',"codigo_usuario":'+$scope.codigo_usuario+',"confirmado":0,"precio_entradas":0}').
 		success(function(resp) {
             $scope.getEventosInvitados();
             $scope.getEventosAAsistir();
@@ -65,7 +65,7 @@ angular.module('controllers.eventsController', [])
 	};
 
 	$scope.getEventosInvitados = function(){
-		$http.get('http://'+ $scope.ip +'/eventos/invitacion_usuario/'+ $scope.codigo_usuario).
+		$http.get('http://'+ $scope.ip +':8081/eventos/invitacion_usuario/'+ $scope.codigo_usuario).
         success(function(resp) {
             $scope.eventosInvitados = resp;
             
@@ -75,7 +75,7 @@ angular.module('controllers.eventsController', [])
 	};
 
 	$scope.getEventosAAsistir = function(){
-		$http.get('http://'+ $scope.ip +'/eventos/confirmacion_usuario/'+ $scope.codigo_usuario).
+		$http.get('http://'+ $scope.ip +':8081/eventos/confirmacion_usuario/'+ $scope.codigo_usuario).
         success(function(resp) {
             $scope.eventosAAsistir = resp;
             
@@ -85,7 +85,7 @@ angular.module('controllers.eventsController', [])
 	};
 
 	$scope.getEventosFinalizados = function(){
-		$http.get('http://'+ $scope.ip +'/eventos/finalizados_usuario/'+ $scope.codigo_usuario).
+		$http.get('http://'+ $scope.ip +':8081/eventos/finalizados_usuario/'+ $scope.codigo_usuario).
         success(function(resp) {
             $scope.eventosFinalizados = resp;
             

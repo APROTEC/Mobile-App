@@ -9,10 +9,9 @@
         <div class="col">
             <h2>{{ acta.nombre_acta }}</h2>
             <h4>{{ acta.descripcion_acta }}</h4>
-            <progress ng-hide="acta.hide==1;" max="100" value="{{acta.downloadProgress}}"></progress>
         </div>
         <div class="col col-10">
-            <button class="button button-positive" ng-click="downloadAndOpenPDF(acta.link_acta,acta)">
+            <button class="button button-positive" ng-click="abrirBrowser(acta.link_acta)">
             <i class="icon ion-link"></i>
             </button>
         </div>
