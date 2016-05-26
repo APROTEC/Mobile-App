@@ -1,25 +1,19 @@
-<ion-view view-title="Actas" cache-view = "false">
+<ion-view view-title="Documentos" cache-view = "false">
   <ion-content class="padding">
     <ion-list>
-
-     
-
       <ion-item class = "item-text-wrap item-remove-animate item-avatar item-icon-right" ng-repeat="acta in listaActas">
       <div class="row">
         <div class="col">
-            <h2>{{ acta.nombre_acta }}</h2>
-            <h4>{{ acta.descripcion_acta }}</h4>
+            <h2>{{ acta.nombre_documento }}</h2>
             <progress ng-hide="acta.hide==1;" max="100" value="{{acta.downloadProgress}}"></progress>
         </div>
         <div class="col col-10">
-            <button class="button button-positive" ng-click="downloadAndOpenPDF(acta.link_acta,acta)">
+            <button class="button button-positive" ng-click="downloadAndOpenPDF(acta.link_documento,acta)">
             <i class="icon ion-link"></i>
             </button>
         </div>
       </div>
-            <ion-option-button class="button-assertive" ng-click="eliminarActaDeUsuario(acta.codigo_acta)">
-              <h5>Eliminar</h5>
-            </ion-option-button>
+           
       </ion-item>
 
 

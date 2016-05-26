@@ -36,7 +36,7 @@ angular.module('controllers.changePasswordController', [])
 
     $scope.cambiarContrasenaEnBD = function(newPassword){
 
-    	$http.put('http://'+ $scope.IP +':8081/usuarios/cambiar_contrasena/'+ $scope.codigoUsuario + '-' + newPassword).
+    	$http.put('http://'+ $scope.IP +'/usuarios/cambiar_contrasena/'+ $scope.codigoUsuario + '-' + newPassword).
         success(function(resp) {
         	
         	var alertPopupCoincidencia = $ionicPopup.alert({

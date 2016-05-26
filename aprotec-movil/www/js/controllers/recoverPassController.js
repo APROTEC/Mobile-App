@@ -9,7 +9,7 @@ angular.module('controllers.recoverPasswordController', [])
 
  		//var username = $scope.data.nombreDeUsuario;
         console.log($scope.data);
- 		$http.get('http://'+ $scope.IP +':8081/usuario_valido/'+ $scope.data.username).
+ 		$http.get('http://'+ $scope.IP +'/usuario_valido/'+ $scope.data.username).
         	success(function(resp) {
         		var existeUsuario = resp; //Debe ser un 0 o 1
         		if(existeUsuario){
@@ -26,7 +26,7 @@ angular.module('controllers.recoverPasswordController', [])
 
     $scope.enviarCorreoRecuperacion = function(username){
 
-    	$http.post('http://'+ $scope.IP +':8081/usuarios/recuperar_contrasena/'+ username).
+    	$http.post('http://'+ $scope.IP +'/usuarios/recuperar_contrasena/'+ username).
         success(function(resp) {
         	
         	var alertPopupRecuperacion = $ionicPopup.alert({

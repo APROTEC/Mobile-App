@@ -1,14 +1,10 @@
-<ion-view view-title="Actas" cache-view = "false">
+<ion-view view-title="Documentos" cache-view = "false">
   <ion-content class="padding">
     <ion-list>
-
-     
-
       <ion-item class = "item-text-wrap item-remove-animate item-avatar item-icon-right" ng-repeat="acta in listaActas">
       <div class="row">
         <div class="col">
             <h2>{{ acta.nombre_acta }}</h2>
-            <h4>{{ acta.descripcion_acta }}</h4>
             <progress ng-hide="acta.hide==1;" max="100" value="{{acta.downloadProgress}}"></progress>
         </div>
         <div class="col col-10">

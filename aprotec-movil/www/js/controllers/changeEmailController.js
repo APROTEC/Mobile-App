@@ -13,9 +13,7 @@ angular.module('controllers.changeEmailController', [])
     	var correo1 = $scope.data.email1
     	var correo2 = $scope.data.email2
 
-    	alert(correo1);
-    	alert(correo2);
-    	alert($scope.codigoUsuario);
+    	
 
     	if((correo1 != undefined) && (correo2 != undefined)){//Hay texto escrito en ambas cajas de texto
 	    	if(correo1.localeCompare(correo2) == 0 ){ //Los correos coindicen
@@ -36,23 +34,32 @@ angular.module('controllers.changeEmailController', [])
     };
 
 
-    $scope.cambiarCorreoEnBD = function(newPassword){
-    	$scope.persona.correo_personal = newPassword;
+    $scope.cambiarCorreoEnBD = function(newMail){
+    	$scope.persona.correo_personal = newMail;
     	$scope.actualizarPersonaBD();
     };
 
 
     $scope.actualizarPersonaBD = function(){
-    	console.log($scope.codigoPersona);
+    	//console.log($scope.codigoPersona);
 		var parte1 = '{"codigo_informacion_persona":' + $scope.codigoPersona + ',';
 		var personaTemp = $scope.persona;
 		delete personaTemp.foto;
 		var parte2 = JSON.stringify(personaTemp).substring(1);
 
-		$http.put('http://'+ $scope.IP +':8081/personas/'+ parte1 + parte2).
+		$http.put('http://'+ $scope.IP +'/personas/'+ parte1 + parte2).
         success(function(resp) {
-            console.log(resp);
+            $scope.vaciarCommentTextArea();
+            var alertPopupCambioExitoso = $ionicPopup.alert({
+			    title: 'Cambio Exitoso',
+			    template: 'Su correo electrónico ha sido cambiado exitosamente.'
+			});
         });
+	};
+
+	$scope.vaciarCommentTextArea = function(){
+		$scope.data.email1 = "";
+		$scope.data.email2 = "";
 	};
 
 

@@ -84,10 +84,46 @@
 
 
 	
-	<br>
-	 <center><button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">Confirmar asistencia</button></center>
+	
+	 <br>
 
-	 <!--####### COMENTARIOS COMENTARIOS COMENTARIOS -->
+	 <center><button class="button button-positive" ng-click="verDocumentos()" >Ver documentos</button></center>
+
+	 <br>
+
+
+	 <!--####### CONFIRMACION CONFIRMACION #########-->
+	
+	<div class="item item-divider color-grisMedio" ng-show="confirmado">
+    	<center>Confirmacion</center>
+  	</div>
+
+
+	<label class="item item-input item-select" ng-repeat="acompanante in acompanantes" ng-show="confirmado">
+	    <div class="input-label">
+	      {{acompanante[1].descripcion}}
+	    </div>
+	    <select ng-model = "numberSelect" ng-change = "changeSelectAcompanantes(numberSelect  ,acompanante)" ng-show="confirmado">
+	    	<option ng-repeat="i in getNumber(number)" value = "{{i}}" >{{i}}</option>
+		</select>
+	</label>
+
+
+
+
+	
+	<br>
+	 <center>
+	 	<button class="button button-positive" ng-click="confirmarAsistencia()" ng-show="confirmado">
+	 		Confirmar asistencia
+	 	</button>
+	 </center>
+
+
+
+
+	 
+ <!--####### COMENTARIOS COMENTARIOS COMENTARIOS -->
 
 	<div class="col"></div>
 	<div class="col"></div>
@@ -118,7 +154,7 @@
 	    {{comentario[0].nombre + ' ' + comentario[0].apellidos}}
 	  </div>
 	  <div class="item item-text-wrap">
-	    {{comentario[1].comentario}}
+	    {{comentario[1]}}
 	  </div>
 	</div>
 

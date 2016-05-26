@@ -1,5 +1,5 @@
 angular.module('controllers.accountController', ['ngCordova'])
-.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker) {
+.controller('AccountCtrl', function($scope, $state, $ionicPopup, $http, $stateParams,$cordovaImagePicker,$cordovaFileTransfer) {
 
 
 	
@@ -11,9 +11,9 @@ angular.module('controllers.accountController', ['ngCordova'])
 	$scope.persona;
 
 	$scope.IP = window.localStorage['direccionIpPuerto'];
-	// ip:8081/grados_academicos/<codigo_Persona>
-	// ip:8081/personas/<codigo_Persona>
-	// ip:8081/usuarios/<codigo_Usuario>
+	// ip/grados_academicos/<codigo_Persona>
+	// ip/personas/<codigo_Persona>
+	// ip/usuarios/<codigo_Usuario>
 
 	$scope.listaGradosAcademicosPersona = [];
 	$scope.listaGradosAcademicos = [];
@@ -187,18 +187,16 @@ angular.module('controllers.accountController', ['ngCordova'])
     };
 
     $scope.changePassword = function(){
-    	console.log($scope.codigoUsuario);
-    	$state.transitionTo("changepassword", "");
+    	$state.transitionTo("tab.account-changepassword", "");
     };
 
     $scope.cambiarCorreoPersonal = function(){
     	//console.log($scope.codigoUsuario);
     	window.localStorage['info_persona'] = JSON.stringify($scope.persona);
     	window.localStorage['codigo_info_persona'] = $scope.usuario.codigo_informacion_persona;
-    	console.log($scope.usuario.codigo_informacion_persona);
     	//console.log($scope.persona);
     	//console.log(window.localStorage['info_persona']);
-    	$state.transitionTo("changeemail", "");
+    	$state.transitionTo("tab.account-changeemail", "");
     };
 
 
@@ -227,7 +225,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	// ----        Funciones GET a la BD         ---- //
 	////////////////////////////////////////////////////
 	$scope.getGradosAcademicosPersona = function(){
-		$http.get('http://'+ $scope.IP +':8081/grados_academicos_personas/'+ $scope.usuario.codigo_informacion_persona).
+		$http.get('http://'+ $scope.IP +'/grados_academicos_personas/'+ $scope.usuario.codigo_informacion_persona).
         success(function(resp) {
             $scope.listaGradosAcademicosPersona = resp;
             if($scope.listaGradosAcademicosPersona.length > 0){
@@ -238,28 +236,28 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getGradosAcademicos = function(){
-		$http.get('http://'+ $scope.IP +':8081/grados_academicos/').
+		$http.get('http://'+ $scope.IP +'/grados_academicos/').
         success(function(resp) {
             $scope.listaGradosAcademicos = resp;
         });
 	};
 
 	$scope.getDepartamentos = function(){
-		$http.get('http://'+ $scope.IP +':8081/departamentos/').
+		$http.get('http://'+ $scope.IP +'/departamentos/').
         success(function(resp) {
         	$scope.getDepartamentoPersona(resp);
         });
 	};	
 
 	$scope.getProvincias = function(){
-		$http.get('http://'+ $scope.IP +':8081/provincias/').
+		$http.get('http://'+ $scope.IP +'/provincias/').
         success(function(resp) {
         	$scope.getProvinciaPersona(resp);
         });
 	};	
 
 	$scope.getDepartamentoPersona = function(departamentos){ //Tiene que comparar subDepartamentos
-		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/' + $scope.persona.codigo_sub_departamento).
+		$http.get('http://'+ $scope.IP +'/sub_departamentos/' + $scope.persona.codigo_sub_departamento).
         success(function(resp) {
         	//console.log(departamentos);
         	//console.log(resp);
@@ -280,7 +278,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getProvinciaPersona = function(provincias){ //Tiene que comparar cantones
-		$http.get('http://'+ $scope.IP +':8081/cantones/' + $scope.persona.codigo_canton).
+		$http.get('http://'+ $scope.IP +'/cantones/' + $scope.persona.codigo_canton).
         success(function(resp) {
         	//console.log(provincias);
         	//console.log(resp);
@@ -302,7 +300,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getSubDepartamentos = function(codigoDepartamento){
-		$http.get('http://'+ $scope.IP +':8081/sub_departamentos/departamentos/' + codigoDepartamento).
+		$http.get('http://'+ $scope.IP +'/sub_departamentos/departamentos/' + codigoDepartamento).
         success(function(resp) {
         	var subDepartamentos = resp;
         	var coincideSubDepartamento = false;
@@ -328,7 +326,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getCantones = function(codigoProvincia){
-		$http.get('http://'+ $scope.IP +':8081/cantones/provincia/' + codigoProvincia).
+		$http.get('http://'+ $scope.IP +'/cantones/provincia/' + codigoProvincia).
         success(function(resp) {
         	var cantones = resp;
         	var coincideCanton = false;
@@ -354,14 +352,14 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getSedes = function(){
-		$http.get('http://'+ $scope.IP +':8081/sedes/').
+		$http.get('http://'+ $scope.IP +'/sedes/').
         success(function(resp) {
         	$scope.getSedePersona(resp);
         });
 	};
 
 	$scope.getSedePersona = function(listaSedes){
-		$http.get('http://'+ $scope.IP +':8081/sedes/' + $scope.persona.codigo_sede).
+		$http.get('http://'+ $scope.IP +'/sedes/' + $scope.persona.codigo_sede).
         success(function(resp) {
         	var sedePersona = resp[0];
             for (var i = listaSedes.length - 1; i >= 0; i--) {
@@ -378,7 +376,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 ////////////////////////////////////////////////
 	$scope.getTallas = function(){
-		$http.get('http://'+ $scope.IP +':8081/tallas_camisas/').
+		$http.get('http://'+ $scope.IP +'/tallas_camisas/').
         success(function(resp) {
         	$scope.getTallaPersona(resp);
         });
@@ -402,7 +400,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 /////////////////////////////////////////////////
 	$scope.getUsuario = function(){
 		//console.log($scope.codigoUsuario);
-		$http.get('http://'+ $scope.IP +':8081/usuarios/'+ $scope.codigoUsuario).
+		$http.get('http://'+ $scope.IP +'/usuarios/'+ $scope.codigoUsuario).
         success(function(data) {
             $scope.usuario = data[0];
             $scope.getPersona();
@@ -414,9 +412,10 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.getPersona = function(){
-		$http.get('http://'+ $scope.IP +':8081/personas/'+ $scope.usuario.codigo_informacion_persona).
+		$http.get('http://'+ $scope.IP +'/personas/'+ $scope.usuario.codigo_informacion_persona).
         success(function(data) {
         	$scope.persona = data[0];
+        	$scope.persona.foto = 'https://'+$scope.persona.foto;
         	$scope.llenarDatos();
             console.log($scope.persona);
         });
@@ -444,7 +443,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	$scope.removerGradoAcademicoEnBD = function(gradoAcademico){
 		console.log(gradoAcademico.codigo_grado_academico);
 
-		$http.delete('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + gradoAcademico.codigo_grado_academico).
+		$http.delete('http://'+ $scope.IP +'/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + gradoAcademico.codigo_grado_academico).
         success(function(resp) {
             console.log(resp);
             $scope.getGradosAcademicosPersona();
@@ -452,7 +451,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 	};
 
 	$scope.addGradoAcademicoPersonaBD = function(objGradoAcademico){
-		$http.post('http://'+ $scope.IP +':8081/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + objGradoAcademico.codigo_grado_academico).
+		$http.post('http://'+ $scope.IP +'/grados_academicos_personas/' + $scope.usuario.codigo_informacion_persona + '-' + objGradoAcademico.codigo_grado_academico).
         success(function(resp) {
             console.log(resp);
             $scope.getGradosAcademicosPersona();
@@ -504,7 +503,7 @@ angular.module('controllers.accountController', ['ngCordova'])
 		delete personaTemp.foto;
 		var parte2 = JSON.stringify(personaTemp).substring(1);
 
-		$http.put('http://'+ $scope.IP +':8081/personas/'+ parte1 + parte2).
+		$http.put('http://'+ $scope.IP +'/personas/'+ parte1 + parte2).
         success(function(resp) {
             console.log(resp);
         });
@@ -523,7 +522,6 @@ angular.module('controllers.accountController', ['ngCordova'])
 		};
 		$cordovaImagePicker.getPictures(options)
 		    .then(function (results) {
-		    	alert(results[0]);
 		      	$scope.uploadPhoto(results[0]);
 		    }, function(error) {
 		      	alert("Error al conseguir la foto");
@@ -533,29 +531,24 @@ angular.module('controllers.accountController', ['ngCordova'])
 
 
 
-		$scope.uploadPhoto = function(file){
-
-			Upload.upload({
-            url: "http://"+$scope.IP+":8081"+"/photos/"+$scope.usuario.codigo_informacion_persona, //webAPI exposed to upload the file
-            data:{file:file} //pass file as data, should be user ng-model
-		        }).then(function (resp) { //upload function returns a promise
-		            if(resp.data.error_code === 0){ //validate success
-		                alert('Success ' + resp.config.data.file.name + 'uploaded. Response: ');
-		            } else {
-		                alert('an error occured');
-		            }
-		        }, function (resp) { //catch error
-		            console.log('Error status: ' + resp.status);
-		            alert('Error status: ' + resp.status);
-		        }, function (evt) { 
-		            console.log(evt);
-		            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-		            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-		            vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
-        		});
-
-			};
-
+	$scope.uploadPhoto = function(file){
+		var extension = file.substr(file.lastIndexOf(".")+1);
+		var name = file.substr(file.lastIndexOf("/")+1);
+		var options = new FileUploadOptions()
+		options.fileKey = "upl";              // this equal to <input type="file" id="upl">
+		options.fileName = name;
+		options.mimeType = "image/"+extension;
+		options.chunkedMode = false;
+		options.params = {'directory' : 'uploads', 'fileName': name};
+		options.httpMethod = 'POST';
+		$cordovaFileTransfer.upload('http://'+$scope.IP+'/photos/'+$scope.usuario.codigo_informacion_persona,file,options)
+		  .then(function(result) {
+		    alert('Foto cambiada exitosamenete, en unos momentos será cambiada');
+		  },function(error)  {
+		    alert('Hubo un error al subir la foto')
+		  });
+			
+	};
 	////////////////////////////////////////////////////
 	// ----    Llamadas iniciales a funciones    ---- //
 	////////////////////////////////////////////////////

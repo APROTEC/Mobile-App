@@ -1,9 +1,10 @@
-angular.module('controllers.actsController', ['ngCordova'])
-.controller('ActsCtrl', function($scope, $state, $http, $ionicPopup, $cordovaFileOpener2,$cordovaFileTransfer,$timeout) {
+angular.module('controllers.eventsDetailsDocumentsController', ['ngCordova'])
+.controller('EventsDetailsDocumentsCtrl', function($scope, $state,$stateParams, $http, $ionicPopup, $cordovaFileOpener2,$cordovaFileTransfer,$timeout) {
 
 	$scope.ip = window.localStorage['direccionIpPuerto'];
 	$scope.codigo_usuario = window.localStorage['codigo_usuario'];
 	$scope.listaActas = [];
+  $scope.codigo_evento = $stateParams.codigo_evento;
 
 
 	$scope.funcionDummy = function() {
@@ -70,21 +71,13 @@ angular.module('controllers.actsController', ['ngCordova'])
   };
 
   $scope.getActas = function(){
-		$http.get('http://'+ $scope.ip +'/actas_usuarios/usuario/' + $scope.codigo_usuario).
+		$http.get('http://'+ $scope.ip +'/eventos_documentos/' + $scope.codigo_evento).
         success(function(resp) {
         	$scope.listaActas = resp;
           addAttributes();
         });
 
 	};
-
- 	$scope.eliminarActaDeUsuario = function(codigoActa) {
- 		$http.delete('http://'+ $scope.ip +'/actas_usuarios/' + codigoActa + '-' + $scope.codigo_usuario).
-      success(function(resp) {
-          console.log('Eliminacion exitosa');
-          $scope.getActas();
-      });
- 	};
    	
   $scope.getActas();
 
